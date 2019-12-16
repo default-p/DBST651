@@ -102,6 +102,89 @@ BEGIN
   INSERT INTO todo_comment (body, user_id, todo_id)
   VALUES ('Punish Kylo Ren', l_todo_user_id, l_todo_id);
 
+  -- 4. Data for Han Solo
+  INSERT INTO todo_user (name, email)
+  VALUES ('Han Solo', 'i-heart-me-falcon@starwars.io')
+  RETURNING id INTO l_todo_user_id;
+  
+  INSERT INTO todo (title, description, deadline, notifications, user_id)
+  VALUES ('A New Hope', 'I think Leia likes me', SYSTIMESTAMP - INTERVAL '60' DAY, SYSTIMESTAMP - INTERVAL '60' DAY, l_todo_user_id)
+  RETURNING id INTO l_todo_id;
+  
+  INSERT INTO category (name, priority, color)
+  VALUES ('Rebel Alliance', 10, 'blue')
+  RETURNING id INTO l_category_id;
+  
+  INSERT INTO todo_category (is_planned, category_id, todo_id)
+  VALUES ('T', l_category_id, l_todo_id);
+  
+  INSERT INTO todo_comment (body, user_id, todo_id)
+  VALUES ('When did I have a son', l_todo_user_id, l_todo_id);
+  
+  INSERT INTO todo (title, description, deadline, notifications, user_id)
+  VALUES ('Dont everybody thank me at once', 'sometimes I amaze even myself', SYSTIMESTAMP - INTERVAL '60' DAY, SYSTIMESTAMP - INTERVAL '60' DAY, l_todo_user_id)
+  RETURNING id INTO l_todo_id;
+  
+  INSERT INTO category (name, priority, color)
+  VALUES ('Jedi Master', 7, 'green')
+  RETURNING id INTO l_category_id;
+  
+  INSERT INTO todo_category (is_planned, category_id, todo_id)
+  VALUES ('F', l_category_id, l_todo_id);
+  
+  INSERT INTO todo_comment (body, user_id, todo_id)
+  VALUES ('Payback Lando', l_todo_user_id, l_todo_id);
+
+  -- 4. Data for Darth Sidious
+  INSERT INTO todo_user (name, email)
+  VALUES ('Darth Sidious', 'evilsenator@starwars.io')
+  RETURNING id INTO l_todo_user_id;
+  
+  INSERT INTO todo (title, description, deadline, notifications, user_id)
+  VALUES ('Revenge of the Sith', 'Unlimited Power', SYSTIMESTAMP - INTERVAL '60' DAY, SYSTIMESTAMP - INTERVAL '60' DAY, l_todo_user_id)
+  RETURNING id INTO l_todo_id;
+  
+  INSERT INTO category (name, priority, color)
+  VALUES ('Sith Lord', 10, 'black')
+  RETURNING id INTO l_category_id;
+  
+  INSERT INTO todo_category (is_planned, category_id, todo_id)
+  VALUES ('T', l_category_id, l_todo_id);
+  
+  INSERT INTO todo_comment (body, user_id, todo_id)
+  VALUES ('the Sith will rule the galaxy and we shall have peace', l_todo_user_id, l_todo_id);
+  
+  -- 5. Data for Yoda
+  INSERT INTO todo_user (name, email)
+  VALUES ('Master Yoda', 'green-guys-need-love-2@starwars.io')
+  RETURNING id INTO l_todo_user_id;
+  
+  INSERT INTO todo (title, description, deadline, notifications, user_id)
+  VALUES ('Do or do not - there is no try', 'that is why you fail', SYSTIMESTAMP - INTERVAL '60' DAY, SYSTIMESTAMP - INTERVAL '60' DAY, l_todo_user_id)
+  RETURNING id INTO l_todo_id;
+  
+  INSERT INTO category (name, priority, color)
+  VALUES ('Jedi Master', 10, 'green')
+  RETURNING id INTO l_category_id;
+  
+  INSERT INTO todo_category (is_planned, category_id, todo_id)
+  VALUES ('T', l_category_id, l_todo_id);
+  
+  INSERT INTO todo_comment (body, user_id, todo_id)
+  VALUES ('patience you must have, my young padawan', l_todo_user_id, l_todo_id);
+  
+  -- 6. Data for Batch Users
+  INSERT INTO todo_user (name, email)
+  VALUES ('Chewbacca', 'no-i-dont-know-bigfoot@starwars.io');
+
+  INSERT INTO todo_user (name, email)
+  VALUES ('R2D2', 'beep-boop-beep@starwars.io');
+  
+  INSERT INTO todo_user (name, email)
+  VALUES ('C-3PO', 'thisismadness@starwars.io');
+
+  INSERT INTO todo_user (name, email)
+  VALUES ('Boba Fett', 'mandalorian@starwars.io');  
 
   COMMIT;
 END;
