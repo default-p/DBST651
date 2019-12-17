@@ -225,16 +225,25 @@ SELECT TODO.ID, TODO.TITLE, TODO.DESCRIPTION, TODO.DEADLINE, TODO_COMMENT.ID, TO
 FROM (TODO INNER JOIN TODO_COMMENT ON TODO.ID=TODO_COMMENT.TODO_ID) INNER JOIN TODO_USER ON TODO_COMMENT.USER_ID=TODO_USER.ID
 WHERE ROWNUM<11;
 
--- vii.	Select distinct rows using joins on 3 tables
+-- Select distinct rows using joins on 3 tables
 
-SELECT DISTINCT CATEGORY.ID, todo_category.ID
-FROM (CATEGORY INNER JOIN todo_category ON CATEGORY.ID=todo_category.category_id) INNER JOIN todo ON todo_category.todo_id=todo.ID;
+select distinct category.id, TODO_CATEGORY.id
+from (category inner join TODO_CATEGORY on category.id=TODO_CATEGORY.CATEGORY_ID) inner join TODO on TODO_CATEGORY.TODO_ID=TODO.id;
 
+-- Use group by & having in a select statement using one or more tables
 
+SELECT COUNT(TODO_USER.ID) FROM TODO_USER
+GROUP BY ID
+HAVING ID > 10001;
+
+-- Use IN clause to select data from one or more tables.
+
+SELECT ID, IS_PLANNED, CATEGORY_ID FROM TODO_CATEGORY WHERE CATEGORY_ID IN (100, 110);
+
+-- Select Length of one column from one table (use Length function)
+
+SELECT BODY, LENGTH(BODY) FROM TODO_COMMENT;
 /*
-viii.	Use group by & having in a select statement using one or more tables.
-ix.	Use IN clause to select data from one or more tables.
-x.	Select Length of one column from one table (use Length function)
 xi.	Use the SQL DELETE statement to delete one record from one table. Add select statements to demonstrate the table contents before and after the DELETE statement. Make sure to use ROLLBACK afterwards so that the data will not be physically removed. For example:
 -- Query 11: use the SLQ DELETE statement to delete one record from one table
 -- Business purpose: delete the HR department
