@@ -214,10 +214,24 @@ SELECT * FROM VIEW_TODO_COMMENTS;
 -- Using a join on 2 tables, select all columns and all rows from the tables without the use of a Cartesian product
 
 SELECT * FROM TODO_USER, TODO;
+
+-- Select and order data retrieved from one table
+
+SELECT * FROM TODO_COMMENT ORDER BY TODO_ID;
+
+-- Using a join on 3 tables, select 5 columns from the 3 tables. Use syntax that would limit the output to 10 rows
+
+SELECT TODO.ID, TODO.TITLE, TODO.DESCRIPTION, TODO.DEADLINE, TODO_COMMENT.ID, TODO_USER.ID
+FROM (TODO INNER JOIN TODO_COMMENT ON TODO.ID=TODO_COMMENT.TODO_ID) INNER JOIN TODO_USER ON TODO_COMMENT.USER_ID=TODO_USER.ID
+WHERE ROWNUM<11;
+
+-- vii.	Select distinct rows using joins on 3 tables
+
+SELECT DISTINCT CATEGORY.ID, todo_category.ID
+FROM (CATEGORY INNER JOIN todo_category ON CATEGORY.ID=todo_category.category_id) INNER JOIN todo ON todo_category.todo_id=todo.ID;
+
+
 /*
-v.	Select and order data retrieved from one table.
-vi.	Using a join on 3 tables, select 5 columns from the 3 tables. Use syntax that would limit the output to 10 rows.
-vii.	Select distinct rows using joins on 3 tables.   
 viii.	Use group by & having in a select statement using one or more tables.
 ix.	Use IN clause to select data from one or more tables.
 x.	Select Length of one column from one table (use Length function)
