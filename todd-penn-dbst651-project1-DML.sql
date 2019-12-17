@@ -243,14 +243,35 @@ SELECT ID, IS_PLANNED, CATEGORY_ID FROM TODO_CATEGORY WHERE CATEGORY_ID IN (100,
 -- Select Length of one column from one table (use Length function)
 
 SELECT BODY, LENGTH(BODY) FROM TODO_COMMENT;
+
+-- Use the SQL DELETE statement to delete one record from one table
+
+SELECT ID, NAME, EMAIL  FROM TODO_USER WHERE NAME LIKE 'R2%';
+
+DELETE FROM TODO_USER WHERE NAME LIKE 'R2%';
+
+SELECT ID, NAME, EMAIL  FROM TODO_USER WHERE NAME LIKE 'R2%';
+
+ROLLBACK;
+
+-- Use the SQL UPDATE statement to change some data
+
+SELECT ID, EMAIL FROM TODO_USER WHERE TODO_USER.ID = 10006;
+
+UPDATE TODO_USER SET EMAIL = 'chewy@starwars.io' WHERE TODO_USER.ID = 10006;
+
+SELECT ID, EMAIL FROM TODO_USER WHERE TODO_USER.ID = 10006;
+
+ROLLBACK;
+
 /*
-xi.	Use the SQL DELETE statement to delete one record from one table. Add select statements to demonstrate the table contents before and after the DELETE statement. Make sure to use ROLLBACK afterwards so that the data will not be physically removed. For example:
+. Add select statements to demonstrate the table contents before and after the DELETE statement. Make sure to use ROLLBACK afterwards so that the data will not be physically removed. For example:
 -- Query 11: use the SLQ DELETE statement to delete one record from one table
 -- Business purpose: delete the HR department
 DELETE FROM DEPARTMENT WHERE DEPT_NAME = 'HR'; 
 -- revert the change
 ROLLBACK;
-xii.	Use the SQL UPDATE statement to change some data. Add select statements to demonstrate the table contents before and after the UPDATE statement. You can either COMMIT or ROLLBACK afterwards. For example:
+ Add select statements to demonstrate the table contents before and after the UPDATE statement. You can either COMMIT or ROLLBACK afterwards. For example:
 -- Query 12: use the SQL UPDATE statement to change some data
 -- Business purpose: change the location of HR department to Largo, MD 
 UPDATE DEPARTMENT SET DEPT_LOCATION = 'Largo, MD' WHERE DEPT_NAME = 'HR';
