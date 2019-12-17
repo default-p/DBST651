@@ -1,0 +1,173 @@
+
+Table TODO_USER dropped.
+
+
+Table TODO_COMMENT dropped.
+
+
+Table TODO dropped.
+
+
+Table TODO_CATEGORY dropped.
+
+
+Table CATEGORY dropped.
+
+
+Sequence TODO_USER_ID_SEQ dropped.
+
+
+Sequence TODO_ID_SEQ dropped.
+
+
+Sequence TODO_COMMENT_ID_SEQ dropped.
+
+
+Sequence TODO_CATEGORY_ID_SEQ dropped.
+
+
+Sequence CATEGORY_ID_SEQ dropped.
+
+
+Table TODO_USER created.
+
+
+Table TODO created.
+
+
+Table TODO_COMMENT created.
+
+
+Table CATEGORY created.
+
+
+Table TODO_CATEGORY created.
+
+Name       Null?    Type          
+---------- -------- ------------- 
+ID         NOT NULL NUMBER(10)    
+NAME                VARCHAR2(50)  
+EMAIL               VARCHAR2(150) 
+CREATED_AT          TIMESTAMP(6)  
+UPDATED_AT          TIMESTAMP(6)  
+Name       Null?    Type          
+---------- -------- ------------- 
+ID         NOT NULL NUMBER(10)    
+BODY                VARCHAR2(300) 
+CREATED_AT          TIMESTAMP(6)  
+UPDATED_AT          TIMESTAMP(6)  
+USER_ID             NUMBER(10)    
+TODO_ID             NUMBER(10)    
+Name          Null?    Type          
+------------- -------- ------------- 
+ID            NOT NULL NUMBER(10)    
+TITLE                  VARCHAR2(150) 
+DESCRIPTION            VARCHAR2(300) 
+DEADLINE               TIMESTAMP(6)  
+NOTIFICATIONS          TIMESTAMP(6)  
+CREATED_AT             TIMESTAMP(6)  
+UPDATED_AT             TIMESTAMP(6)  
+USER_ID                NUMBER(10)    
+Name       Null?    Type          
+---------- -------- ------------- 
+ID         NOT NULL NUMBER(10)    
+NAME                VARCHAR2(300) 
+PRIORITY            NUMBER(10)    
+COLOR               VARCHAR2(50)  
+CREATED_AT          TIMESTAMP(6)  
+UPDATED_AT          TIMESTAMP(6)  
+Name        Null? Type         
+----------- ----- ------------ 
+ID                NUMBER(10)   
+IS_PLANNED        CHAR(1)      
+CATEGORY_ID       NUMBER(10)   
+TODO_ID           NUMBER(10)   
+CREATED_AT        TIMESTAMP(6) 
+UPDATED_AT        TIMESTAMP(6) 
+
+Index TODO_USER_NAME_FK_IDX created.
+
+
+Index TODO_COMMENT_TEXT_FK_IDX created.
+
+
+Index TODO_TITLE_FK_IDX created.
+
+
+Index TODO_SUSPENSE_FK_IDX created.
+
+
+Index TODO_DETAILS_FK_IDX created.
+
+
+View VIRTUAL_TODO_CATEGORIES created.
+
+
+View VIRTUAL_TODO_ITEMS created.
+
+
+View VIEW_TODO_ITEMS created.
+
+
+View VIEW_TODO_COMMENTS created.
+
+Name       Null?    Type          
+---------- -------- ------------- 
+ID         NOT NULL NUMBER(10)    
+NAME                VARCHAR2(300) 
+PRIORITY            NUMBER(10)    
+COLOR               VARCHAR2(50)  
+IS_PLANNED          CHAR(1)       
+Name          Null?    Type          
+------------- -------- ------------- 
+ID            NOT NULL NUMBER(10)    
+TITLE                  VARCHAR2(150) 
+DESCRIPTION            VARCHAR2(300) 
+DEADLINE               TIMESTAMP(6)  
+NOTIFICATIONS          TIMESTAMP(6)  
+USER_ID                NUMBER(10)    
+NAME                   VARCHAR2(50)  
+Name          Null?    Type          
+------------- -------- ------------- 
+ID            NOT NULL NUMBER(10)    
+TITLE                  VARCHAR2(150) 
+DESCRIPTION            VARCHAR2(300) 
+DEADLINE               TIMESTAMP(6)  
+NOTIFICATIONS          TIMESTAMP(6)  
+USER_ID                NUMBER(10)    
+Name    Null?    Type          
+------- -------- ------------- 
+ID      NOT NULL NUMBER(10)    
+BODY             VARCHAR2(300) 
+USER_ID          NUMBER(10)    
+TODO_ID          NUMBER(10)    
+
+Sequence TODO_USER_ID_SEQ created.
+
+
+Sequence TODO_ID_SEQ created.
+
+
+Sequence TODO_COMMENT_ID_SEQ created.
+
+
+Sequence CATEGORY_ID_SEQ created.
+
+
+Sequence TODO_CATEGORY_ID_SEQ created.
+
+
+Trigger TODO_USER_ID_TRIGGER compiled
+
+
+Trigger TODO_ID_TRIGGER compiled
+
+
+Trigger TODO_COMMENT_ID_TRIGGER compiled
+
+
+Trigger CATEGORY_ID_TRIGGER compiled
+
+
+Trigger TODO_CATEGORY_ID_TRIGGER compiled
+
