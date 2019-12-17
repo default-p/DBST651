@@ -264,21 +264,45 @@ SELECT ID, EMAIL FROM TODO_USER WHERE TODO_USER.ID = 10006;
 
 ROLLBACK;
 
+-- 8 additional advanced (multiple table joins, sub-queries, aggregate, etc.) SQL statements.
+
+SELECT  NAME, EMAIL
+  FROM  TODO_USER LEFT JOIN TODO on TODO_USER.ID=TODO.USER_ID
+ WHERE  TODO_USER.ID is NULL;
+ 
+ 
+SELECT NAME FROM CATEGORY WHERE CATEGORY.ID NOT IN (SELECT ID FROM TODO_CATEGORY);
+
+SELECT ID, TITLE, DESCRIPTION, USER_ID
+FROM TODO 
+WHERE USER_ID = 
+  (
+    SELECT COUNT(USER_ID)
+    FROM TODO
+    GROUP BY 
+      USER_ID
+    HAVING COUNT(*) > 3
+  );
+  
+SELECT 
+    ID, USER_ID
+FROM
+    TODO
+WHERE
+    USER_ID IN (SELECT 
+            USER_ID
+        FROM
+            TODO
+        WHERE
+            USER_id > 2)
+ORDER BY USER_ID;
+
 /*
-. Add select statements to demonstrate the table contents before and after the DELETE statement. Make sure to use ROLLBACK afterwards so that the data will not be physically removed. For example:
--- Query 11: use the SLQ DELETE statement to delete one record from one table
--- Business purpose: delete the HR department
-DELETE FROM DEPARTMENT WHERE DEPT_NAME = 'HR'; 
--- revert the change
-ROLLBACK;
- Add select statements to demonstrate the table contents before and after the UPDATE statement. You can either COMMIT or ROLLBACK afterwards. For example:
--- Query 12: use the SQL UPDATE statement to change some data
--- Business purpose: change the location of HR department to Largo, MD 
-UPDATE DEPARTMENT SET DEPT_LOCATION = 'Largo, MD' WHERE DEPT_NAME = 'HR';
--- revert the change
-ROLLBACK;
-xiii.	Perform 8 additional advanced (multiple table joins, sub-queries, aggregate, etc.) SQL statements.
+
+SELECT TODO_USER.ID, TODO_USER.NAME, TODO.ID, TITLE, DEADLINE as DUE_DATE, BODY, IS_PLANNED AS Y, PRIORITY, COLOR
+FROM (((TODO_USER INNER JOIN TODO on TODO_USER.ID=TODO.USER_ID)
+      INNER JOIN TODO_COMMENT on TODO_COMMENT.TODO_ID=TODO_CATEGORY.TODO_ID)
+      INNER JOIN TODO_CATEGORY oN CATEGORY.ID=TODO_CATEGORY.CATEGORY_ID)
+      INNER JOIN CATEGORY on CATEGORY.ID=TODO_CATEGORY.CATEGORY_ID;   
 */
-
-
 
