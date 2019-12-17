@@ -1,7 +1,10 @@
+SQL> SET ECHO ON;
 SQL> SET SERVEROUTPUT ON;
-SQL> SET LINESIZE 150;
-SQL> SET PAGESIZE 30;
+SQL> SET LINESIZE 300;
+SQL> SET PAGESIZE 300;
+SQL> SET WRAPE OFF;
 SQL> 
+SQL> /* BEGIN Insert Data */
 SQL> DECLARE
   2    L_TODO_USER_ID  TODO_USER.ID%TYPE;
   3    L_TODO_ID       TODO.ID%TYPE;
@@ -155,44 +158,1157 @@ SQL> DECLARE
 151    INSERT INTO TODO_CATEGORY (IS_PLANNED, CATEGORY_ID, TODO_ID)
 152    VALUES ('T', L_CATEGORY_ID, L_TODO_ID);
 153  
-154    INSERT INTO TODO_COMMENT (BODY, USER_ID, TODO_ID)
-155    VALUES ('the Sith will rule the galaxy and we shall have peace', L_TODO_USER_ID, L_TODO_ID);
-156  
-157    -- 5. Data for Yoda
-158    INSERT INTO TODO_USER (NAME, EMAIL)
-159    VALUES ('Master Yoda', 'green-guys-need-love-2@starwars.io')
-160    RETURNING ID INTO L_TODO_USER_ID;
-161  
-162    INSERT INTO TODO (TITLE, DESCRIPTION, DEADLINE, NOTIFICATIONS, USER_ID)
-163    VALUES ('Do or do not - there is no try', 'that is why you fail', SYSTIMESTAMP - INTERVAL '60' DAY, SYSTIMESTAMP - INTERVAL '60' DAY, L_TODO_USER_ID)
-164    RETURNING ID INTO L_TODO_ID;
-165  
-166    INSERT INTO CATEGORY (NAME, PRIORITY, COLOR)
-167    VALUES ('Jedi Master', 10, 'green')
-168    RETURNING ID INTO L_CATEGORY_ID;
-169  
-170    INSERT INTO TODO_CATEGORY (IS_PLANNED, CATEGORY_ID, TODO_ID)
-171    VALUES ('T', L_CATEGORY_ID, L_TODO_ID);
+154    INSERT INTO CATEGORY (NAME, PRIORITY, COLOR)
+155    VALUES ('Evil Galactic Emperor', 100, 'red')
+156    RETURNING ID INTO L_CATEGORY_ID;
+157  
+158    INSERT INTO TODO_CATEGORY (IS_PLANNED, CATEGORY_ID, TODO_ID)
+159    VALUES ('T', L_CATEGORY_ID, L_TODO_ID);
+160  
+161    INSERT INTO TODO_COMMENT (BODY, USER_ID, TODO_ID)
+162    VALUES ('the Sith will rule the galaxy and we shall have peace', L_TODO_USER_ID, L_TODO_ID);
+163  
+164    -- 5. Data for Yoda
+165    INSERT INTO TODO_USER (NAME, EMAIL)
+166    VALUES ('Master Yoda', 'green-guys-need-love-2@starwars.io')
+167    RETURNING ID INTO L_TODO_USER_ID;
+168  
+169    INSERT INTO TODO (TITLE, DESCRIPTION, DEADLINE, NOTIFICATIONS, USER_ID)
+170    VALUES ('Do or do not - there is no try', 'that is why you fail', SYSTIMESTAMP - INTERVAL '60' DAY, SYSTIMESTAMP - INTERVAL '60' DAY, L_TODO_USER_ID)
+171    RETURNING ID INTO L_TODO_ID;
 172  
-173    INSERT INTO TODO_COMMENT (BODY, USER_ID, TODO_ID)
-174    VALUES ('patience you must have, my young padawan', L_TODO_USER_ID, L_TODO_ID);
-175  
-176    -- 6. Data for Batch Users
-177    INSERT INTO TODO_USER (NAME, EMAIL)
-178    VALUES ('Chewbacca', 'no-i-dont-know-bigfoot@starwars.io');
+173    INSERT INTO CATEGORY (NAME, PRIORITY, COLOR)
+174    VALUES ('Jedi Master', 100, 'green')
+175    RETURNING ID INTO L_CATEGORY_ID;
+176  
+177    INSERT INTO TODO_CATEGORY (IS_PLANNED, CATEGORY_ID, TODO_ID)
+178    VALUES ('T', L_CATEGORY_ID, L_TODO_ID);
 179  
-180    INSERT INTO TODO_USER (NAME, EMAIL)
-181    VALUES ('R2D2', 'beep-boop-beep@starwars.io');
-182  
-183    INSERT INTO TODO_USER (NAME, EMAIL)
-184    VALUES ('C-3PO', 'thisismadness@starwars.io');
-185  
-186    INSERT INTO TODO_USER (NAME, EMAIL)
-187    VALUES ('Boba Fett', 'mandalorian@starwars.io');  
-188  
-189    COMMIT;
-190  END;
-191  /
+180    INSERT INTO CATEGORY (NAME, PRIORITY, COLOR)
+181    VALUES ('Jedi Council', 50, 'yellow')
+182    RETURNING ID INTO L_CATEGORY_ID;
+183  
+184    INSERT INTO TODO_CATEGORY (IS_PLANNED, CATEGORY_ID, TODO_ID)
+185    VALUES ('T', L_CATEGORY_ID, L_TODO_ID);
+186  
+187    INSERT INTO TODO_COMMENT (BODY, USER_ID, TODO_ID)
+188    VALUES ('patience you must have, my young padawan', L_TODO_USER_ID, L_TODO_ID);
+189  
+190    -- 6. Data for Batch Users
+191    INSERT INTO TODO_USER (NAME, EMAIL)
+192    VALUES ('Chewbacca', 'no-i-dont-know-bigfoot@starwars.io');
+193  
+194    INSERT INTO TODO_USER (NAME, EMAIL)
+195    VALUES ('R2D2', 'beep-boop-beep@starwars.io');
+196  
+197    INSERT INTO TODO_USER (NAME, EMAIL)
+198    VALUES ('C-3PO', 'thisismadness@starwars.io');
+199  
+200    INSERT INTO TODO_USER (NAME, EMAIL)
+201    VALUES ('Boba Fett', 'mandalorian@starwars.io');  
+202  
+203    COMMIT;
+204  END;
+205  /
 
 PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> /* END Insert Data */
+SQL> 
+SQL> 
+SQL> /* START OF 20 SQL SELECT STATEMENTS */
+SQL> 
+SQL> -- Select all columns and all rows from one table
+SQL> 
+SQL> SELECT * FROM TODO_USER;
+
+        ID NAME                                               EMAIL                                                                                                                                                  CREATED_AT                      UPDATED_AT                     
+---------- -------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------ ------------------------------- -------------------------------
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM
+
+10 rows selected. 
+
+SQL> 
+SQL> -- Select 5 columns and all rows from one table
+SQL> 
+SQL> SELECT USER_ID,ID,TITLE,DESCRIPTION,DEADLINE FROM TODO;
+
+   USER_ID         ID TITLE
+---------- ---------- ------------------------------------------------------------------------------------------------------------------------------------------------------
+DESCRIPTION
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DEADLINE                       
+-------------------------------
+     10000          1 The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM
+
+     10000          2 Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM
+
+     10001          3 The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM
+
+     10001          4 Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM
+
+     10002          5 Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM
+
+     10002          6 Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM
+
+     10003          7 A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM
+
+     10003          8 Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM
+
+     10004          9 Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM
+
+     10005         10 Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM
+
+
+10 rows selected. 
+
+SQL> 
+SQL> -- Select all columns and all rows from one view
+SQL> 
+SQL> SELECT * FROM VIEW_TODO_COMMENTS;
+
+        ID
+----------
+BODY
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   USER_ID    TODO_ID
+---------- ----------
+       100 
+The force is strong with you                                                                                                                                                                                                                                                                                
+     10000          1
+
+       101 
+May the force be with you                                                                                                                                                                                                                                                                                   
+     10000          2
+
+       102 
+Luke I am your father                                                                                                                                                                                                                                                                                       
+     10001          3
+
+       103 
+I must obey my master                                                                                                                                                                                                                                                                                       
+     10001          4
+
+       104 
+My father was seduced by the dark side                                                                                                                                                                                                                                                                      
+     10002          5
+
+       105 
+Punish Kylo Ren                                                                                                                                                                                                                                                                                             
+     10002          6
+
+       106 
+When did I have a son                                                                                                                                                                                                                                                                                       
+     10003          7
+
+       107 
+Payback Lando                                                                                                                                                                                                                                                                                               
+     10003          8
+
+       108 
+the Sith will rule the galaxy and we shall have peace                                                                                                                                                                                                                                                       
+     10004          9
+
+       109 
+patience you must have, my young padawan                                                                                                                                                                                                                                                                    
+     10005         10
+
+
+10 rows selected. 
+
+SQL> 
+SQL> -- Using a join on 2 tables, select all columns and all rows from the tables without the use of a Cartesian product
+SQL> 
+SQL> SELECT * FROM TODO_USER, TODO;
+
+        ID  AME                                               EMAIL                                                                                                                                                  CREATED_AT                      UPDATED_AT                              ID
+---------- -------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------ ------------------------------- ------------------------------- ----------
+TITLE
+------------------------------------------------------------------------------------------------------------------------------------------------------
+DESCRIPTION
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DEADLINE                        NOTIFICATIONS                   CREATED_AT                      UPDATED_AT                         USER_ID
+------------------------------- ------------------------------- ------------------------------- ------------------------------- ----------
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          1 
+The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM 18-OCT-19 08.20.27.162989000 AM 18-SEP-19 08.20.27.163729000 AM 27-NOV-19 08.20.27.163738000 AM      10000
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          2 
+Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM 18-OCT-19 08.20.27.176692000 AM 18-SEP-19 08.20.27.176772000 AM 27-NOV-19 08.20.27.176779000 AM      10000
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          3 
+The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM 18-OCT-19 08.20.27.180135000 AM 18-SEP-19 08.20.27.180210000 AM 27-NOV-19 08.20.27.180216000 AM      10001
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          4 
+Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM 18-OCT-19 08.20.27.182482000 AM 18-SEP-19 08.20.27.182557000 AM 27-NOV-19 08.20.27.182564000 AM      10001
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          5 
+Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM 18-OCT-19 08.20.27.185452000 AM 18-SEP-19 08.20.27.185527000 AM 27-NOV-19 08.20.27.185534000 AM      10002
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          6 
+
+        ID  AME                                               EMAIL                                                                                                                                                  CREATED_AT                      UPDATED_AT                              ID
+---------- -------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------ ------------------------------- ------------------------------- ----------
+TITLE
+------------------------------------------------------------------------------------------------------------------------------------------------------
+DESCRIPTION
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DEADLINE                        NOTIFICATIONS                   CREATED_AT                      UPDATED_AT                         USER_ID
+------------------------------- ------------------------------- ------------------------------- ------------------------------- ----------
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          6 
+Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM 18-OCT-19 08.20.27.187768000 AM 18-SEP-19 08.20.27.187844000 AM 27-NOV-19 08.20.27.187851000 AM      10002
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          7 
+A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM 18-OCT-19 08.20.27.190725000 AM 18-SEP-19 08.20.27.190801000 AM 27-NOV-19 08.20.27.190808000 AM      10003
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          8 
+Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM 18-OCT-19 08.20.27.193093000 AM 18-SEP-19 08.20.27.193169000 AM 27-NOV-19 08.20.27.193175000 AM      10003
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM          9 
+Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM 18-OCT-19 08.20.27.196114000 AM 18-SEP-19 08.20.27.196190000 AM 27-NOV-19 08.20.27.196197000 AM      10004
+
+     10000 Luke Skywalker                                     lastjedi@starwars.io                                                                                                                                   18-SEP-19 08.20.27.157020000 AM 27-NOV-19 08.20.27.157036000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10001 Darth Vader                                        black-attire@starwars.io                                                                                                                               18-SEP-19 08.20.27.179437000 AM 27-NOV-19 08.20.27.179444000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10002 General Leia                                       princess@starwars.io                                                                                                                                   18-SEP-19 08.20.27.184766000 AM 27-NOV-19 08.20.27.184774000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10003 Han Solo                                           i-heart-me-falcon@starwars.io                                                                                                                          18-SEP-19 08.20.27.190001000 AM 27-NOV-19 08.20.27.190008000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10004 Darth Sidious                                      evilsenator@starwars.io                                                                                                                                18-SEP-19 08.20.27.195383000 AM 27-NOV-19 08.20.27.195391000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10005 Master Yoda                                        green-guys-need-love-2@starwars.io                                                                                                                     18-SEP-19 08.20.27.199180000 AM 27-NOV-19 08.20.27.199188000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10006 Chewbacca                                          no-i-dont-know-bigfoot@starwars.io                                                                                                                     18-SEP-19 08.20.27.202949000 AM 27-NOV-19 08.20.27.202957000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                             18-SEP-19 08.20.27.203605000 AM 27-NOV-19 08.20.27.203613000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10008 C-3PO                                              thisismadness@starwars.io                                                                                                                              18-SEP-19 08.20.27.204300000 AM 27-NOV-19 08.20.27.204308000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+     10009 Boba Fett                                          mandalorian@starwars.io                                                                                                                                18-SEP-19 08.20.27.204936000 AM 27-NOV-19 08.20.27.204944000 AM         10 
+Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM 18-OCT-19 08.20.27.199895000 AM 18-SEP-19 08.20.27.199972000 AM 27-NOV-19 08.20.27.199979000 AM      10005
+
+
+100 rows selected. 
+
+SQL> 
+SQL> -- Select and order data retrieved from one table
+SQL> 
+SQL> SELECT * FROM TODO_COMMENT ORDER BY TODO_ID;
+
+        ID
+----------
+BODY
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATED_AT                      UPDATED_AT                         USER_ID    TODO_ID
+------------------------------- ------------------------------- ---------- ----------
+       100 
+The force is strong with you                                                                                                                                                                                                                                                                                
+18-SEP-19 08.20.27.175787000 AM 27-NOV-19 08.20.27.175795000 AM      10000          1
+
+       101 
+May the force be with you                                                                                                                                                                                                                                                                                   
+18-SEP-19 08.20.27.178752000 AM 27-NOV-19 08.20.27.178760000 AM      10000          2
+
+       102 
+Luke I am your father                                                                                                                                                                                                                                                                                       
+18-SEP-19 08.20.27.181770000 AM 27-NOV-19 08.20.27.181778000 AM      10001          3
+
+       103 
+I must obey my master                                                                                                                                                                                                                                                                                       
+18-SEP-19 08.20.27.184061000 AM 27-NOV-19 08.20.27.184069000 AM      10001          4
+
+       104 
+My father was seduced by the dark side                                                                                                                                                                                                                                                                      
+18-SEP-19 08.20.27.187040000 AM 27-NOV-19 08.20.27.187048000 AM      10002          5
+
+       105 
+Punish Kylo Ren                                                                                                                                                                                                                                                                                             
+18-SEP-19 08.20.27.189344000 AM 27-NOV-19 08.20.27.189351000 AM      10002          6
+
+       106 
+When did I have a son                                                                                                                                                                                                                                                                                       
+18-SEP-19 08.20.27.192338000 AM 27-NOV-19 08.20.27.192346000 AM      10003          7
+
+       107 
+Payback Lando                                                                                                                                                                                                                                                                                               
+18-SEP-19 08.20.27.194743000 AM 27-NOV-19 08.20.27.194751000 AM      10003          8
+
+       108 
+the Sith will rule the galaxy and we shall have peace                                                                                                                                                                                                                                                       
+18-SEP-19 08.20.27.198495000 AM 27-NOV-19 08.20.27.198502000 AM      10004          9
+
+       109 
+patience you must have, my young padawan                                                                                                                                                                                                                                                                    
+18-SEP-19 08.20.27.202294000 AM 27-NOV-19 08.20.27.202302000 AM      10005         10
+
+
+10 rows selected. 
+
+SQL> 
+SQL> -- Using a join on 3 tables, select 5 columns from the 3 tables. Use syntax that would limit the output to 10 rows
+SQL> 
+SQL> SELECT TODO.ID, TODO.TITLE, TODO.DESCRIPTION, TODO.DEADLINE, TODO_COMMENT.ID, TODO_USER.ID
+  2  FROM (TODO INNER JOIN TODO_COMMENT ON TODO.ID=TODO_COMMENT.TODO_ID) INNER JOIN TODO_USER ON TODO_COMMENT.USER_ID=TODO_USER.ID
+  3  WHERE ROWNUM<11;
+
+        ID TITLE
+---------- ------------------------------------------------------------------------------------------------------------------------------------------------------
+DESCRIPTION
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DEADLINE                                ID         ID
+------------------------------- ---------- ----------
+         1 The Rise of Skywalker                                                                                                                                  
+Last time to show off jedi master skills                                                                                                                                                                                                                                                                    
+18-OCT-19 08.20.27.162989000 AM        100      10000
+
+         2 Like father like son                                                                                                                                   
+I am a Jedi like my father before me                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.176692000 AM        101      10000
+
+         3 The Empire Strikes Back                                                                                                                                
+You underestimate the power of the dark side                                                                                                                                                                                                                                                                
+18-OCT-19 08.20.27.180135000 AM        102      10001
+
+         4 Reunite with old friend Obi Wan Kenobi                                                                                                                 
+Mentoring with Friend                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.182482000 AM        103      10001
+
+         5 Return of the Jedi                                                                                                                                     
+I feel very passionate about Luke                                                                                                                                                                                                                                                                           
+18-OCT-19 08.20.27.185452000 AM        104      10002
+
+         6 Someone has to save our skins                                                                                                                          
+Punishing Han Solo                                                                                                                                                                                                                                                                                          
+18-OCT-19 08.20.27.187768000 AM        105      10002
+
+         7 A New Hope                                                                                                                                             
+I think Leia likes me                                                                                                                                                                                                                                                                                       
+18-OCT-19 08.20.27.190725000 AM        106      10003
+
+         8 Dont everybody thank me at once                                                                                                                        
+sometimes I amaze even myself                                                                                                                                                                                                                                                                               
+18-OCT-19 08.20.27.193093000 AM        107      10003
+
+         9 Revenge of the Sith                                                                                                                                    
+Unlimited Power                                                                                                                                                                                                                                                                                             
+18-OCT-19 08.20.27.196114000 AM        108      10004
+
+        10 Do or do not - there is no try                                                                                                                         
+that is why you fail                                                                                                                                                                                                                                                                                        
+18-OCT-19 08.20.27.199895000 AM        109      10005
+
+
+10 rows selected. 
+
+SQL> 
+SQL> -- Select distinct rows using joins on 3 tables
+SQL> 
+SQL> SELECT DISTINCT CATEGORY.ID, TODO_CATEGORY.ID
+  2  FROM (CATEGORY INNER JOIN TODO_CATEGORY ON CATEGORY.ID=TODO_CATEGORY.CATEGORY_ID) INNER JOIN TODO ON TODO_CATEGORY.TODO_ID=TODO.ID;
+
+        ID         ID
+---------- ----------
+        70       1002
+       100       1005
+       150       1010
+        80       1003
+        90       1004
+        50       1000
+       110       1006
+        60       1001
+       160       1011
+       120       1007
+       130       1008
+       140       1009
+
+12 rows selected. 
+
+SQL> 
+SQL> -- Use group by & having in a select statement using one or more tables
+SQL> 
+SQL> SELECT COUNT(TODO_USER.ID) FROM TODO_USER
+  2  GROUP BY ID
+  3  HAVING ID > 10001;
+
+COUNT(TODO_USER.ID)
+-------------------
+                  1
+                  1
+                  1
+                  1
+                  1
+                  1
+                  1
+                  1
+
+8 rows selected. 
+
+SQL> 
+SQL> -- Use IN clause to select data from one or more tables.
+SQL> 
+SQL> SELECT ID, IS_PLANNED, CATEGORY_ID FROM TODO_CATEGORY WHERE CATEGORY_ID IN (100, 110);
+
+        ID I CATEGORY_ID
+---------- - -----------
+      1005 F         100
+      1006 T         110
+
+SQL> 
+SQL> -- Select Length of one column from one table (use Length function)
+SQL> 
+SQL> SELECT BODY, LENGTH(BODY) FROM TODO_COMMENT;
+
+BODY
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LENGTH(BODY)
+------------
+The force is strong with you                                                                                                                                                                                                                                                                                
+          28
+
+May the force be with you                                                                                                                                                                                                                                                                                   
+          25
+
+Luke I am your father                                                                                                                                                                                                                                                                                       
+          21
+
+I must obey my master                                                                                                                                                                                                                                                                                       
+          21
+
+My father was seduced by the dark side                                                                                                                                                                                                                                                                      
+          38
+
+Punish Kylo Ren                                                                                                                                                                                                                                                                                             
+          15
+
+When did I have a son                                                                                                                                                                                                                                                                                       
+          21
+
+Payback Lando                                                                                                                                                                                                                                                                                               
+          13
+
+the Sith will rule the galaxy and we shall have peace                                                                                                                                                                                                                                                       
+          53
+
+patience you must have, my young padawan                                                                                                                                                                                                                                                                    
+          40
+
+
+10 rows selected. 
+
+SQL> 
+SQL> -- Use the SQL DELETE statement to delete one record from one table
+SQL> 
+SQL> SELECT ID, NAME, EMAIL  FROM TODO_USER WHERE NAME LIKE 'R2%';
+
+        ID NAME                                               EMAIL                                                                                                                                                 
+---------- -------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------
+     10007 R2D2                                               beep-boop-beep@starwars.io                                                                                                                            
+
+SQL> 
+SQL> DELETE FROM TODO_USER WHERE NAME LIKE 'R2%';
+
+1 row deleted.
+
+SQL> 
+SQL> SELECT ID, NAME, EMAIL  FROM TODO_USER WHERE NAME LIKE 'R2%';
+no rows selected
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- Use the SQL UPDATE statement to change some data
+SQL> 
+SQL> SELECT ID, EMAIL FROM TODO_USER WHERE TODO_USER.ID = 10006;
+
+        ID EMAIL                                                                                                                                                 
+---------- ------------------------------------------------------------------------------------------------------------------------------------------------------
+     10006 no-i-dont-know-bigfoot@starwars.io                                                                                                                    
+
+SQL> 
+SQL> UPDATE TODO_USER SET EMAIL = 'chewy@starwars.io' WHERE TODO_USER.ID = 10006;
+
+1 row updated.
+
+SQL> 
+SQL> SELECT ID, EMAIL FROM TODO_USER WHERE TODO_USER.ID = 10006;
+
+        ID EMAIL                                                                                                                                                 
+---------- ------------------------------------------------------------------------------------------------------------------------------------------------------
+     10006 chewy@starwars.io                                                                                                                                     
+
+SQL> 
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> 
+SQL> -- 8 additional advanced (multiple table joins, sub-queries, aggregate, etc.) SQL statements.
+SQL> 
+SQL> -- I.
+SQL> SELECT  NAME, EMAIL
+  2    FROM  TODO_USER LEFT JOIN TODO on TODO_USER.ID=TODO.USER_ID
+  3   WHERE  TODO_USER.ID is NULL;
+no rows selected
+SQL> 
+SQL> -- II.
+SQL> SELECT NAME FROM CATEGORY WHERE CATEGORY.ID NOT IN (SELECT ID FROM TODO_CATEGORY);
+
+NAME                                                                                                                                                                                                                                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Jedi Master
+Rebel Alliance
+Sith Lord
+Jedi Apprentice
+Evil Galactic Emperor
+Jedi Master
+Sith Lord
+Sith Lord
+Jedi Master
+Jedi Master
+Jedi Master
+Jedi Council
+
+12 rows selected. 
+
+SQL> 
+SQL> -- III.
+SQL> SELECT ID, TITLE, DESCRIPTION, USER_ID
+  2  FROM TODO 
+  3  WHERE USER_ID = 
+  4    (
+  5      SELECT COUNT(USER_ID)
+  6      FROM TODO
+  7      GROUP BY 
+  8        USER_ID
+  9      HAVING COUNT(*) > 3
+ 10    );
+no rows selected
+SQL> 
+SQL> -- IV.
+SQL> SELECT 
+  2      ID, USER_ID
+  3  FROM
+  4      TODO
+  5  WHERE
+  6      USER_ID IN (SELECT 
+  7              USER_ID
+  8          FROM
+  9              TODO
+ 10          WHERE
+ 11              USER_id > 2)
+ 12  ORDER BY USER_ID;
+
+        ID    USER_ID
+---------- ----------
+         1      10000
+         2      10000
+         3      10001
+         4      10001
+         5      10002
+         6      10002
+         7      10003
+         8      10003
+         9      10004
+        10      10005
+
+10 rows selected. 
+
+SQL> 
+SQL> -- V.
+SQL> SELECT 
+  2      ID, BODY, TODO_ID
+  3  FROM
+  4      TODO_COMMENT C
+  5  WHERE
+  6      EXISTS( SELECT 
+  7              IS_PLANNED
+  8          FROM
+  9              TODO_CATEGORY TC
+ 10          WHERE
+ 11              IS_PLANNED = 'F'
+ 12                  AND C.TODO_ID = TC.TODO_ID)
+ 13  ORDER BY TODO_ID;
+
+        ID
+----------
+BODY
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   TODO_ID
+----------
+       101 
+May the force be with you                                                                                                                                                                                                                                                                                   
+         2
+
+       105 
+Punish Kylo Ren                                                                                                                                                                                                                                                                                             
+         6
+
+       107 
+Payback Lando                                                                                                                                                                                                                                                                                               
+         8
+
+
+SQL> 
+SQL> -- VI.
+SQL> SELECT CATEGORY.NAME, COUNT(TODO_CATEGORY.TODO_ID) AS CATEGORY_TOTAL FROM CATEGORY
+  2  LEFT JOIN TODO_CATEGORY ON TODO_CATEGORY.CATEGORY_ID=CATEGORY.ID
+  3  GROUP BY CATEGORY.NAME;
+
+NAME
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CATEGORY_TOTAL
+--------------
+Sith Lord                                                                                                                                                                                                                                                                                                   
+             3
+
+Rebel Alliance                                                                                                                                                                                                                                                                                              
+             1
+
+Jedi Master                                                                                                                                                                                                                                                                                                 
+             5
+
+Evil Galactic Emperor                                                                                                                                                                                                                                                                                       
+             1
+
+Jedi Council                                                                                                                                                                                                                                                                                                
+             1
+
+Jedi Apprentice                                                                                                                                                                                                                                                                                             
+             1
+
+
+6 rows selected. 
+
+SQL> 
+SQL> -- VII.
+SQL> 
+SQL> SELECT TITLE, COUNT(TODO_COMMENT.ID)
+  2  FROM TODO
+  3  LEFT JOIN TODO_COMMENT
+  4    ON TODO.ID = TODO_COMMENT.TODO_ID
+  5  GROUP BY TODO.TITLE;
+
+TITLE                                                                                                                                                  COUNT(TODO_COMMENT.ID)
+------------------------------------------------------------------------------------------------------------------------------------------------------ ----------------------
+The Empire Strikes Back                                                                                                                                                     1
+The Rise of Skywalker                                                                                                                                                       1
+Like father like son                                                                                                                                                        1
+Do or do not - there is no try                                                                                                                                              1
+Reunite with old friend Obi Wan Kenobi                                                                                                                                      1
+Return of the Jedi                                                                                                                                                          1
+Someone has to save our skins                                                                                                                                               1
+Dont everybody thank me at once                                                                                                                                             1
+Revenge of the Sith                                                                                                                                                         1
+A New Hope                                                                                                                                                                  1
+
+10 rows selected. 
+
+SQL> 
+SQL> -- VIII.
+SQL> 
+SQL> SELECT TODO_CATEGORY.ID, MAX(CATEGORY.PRIORITY)
+  2  FROM TODO_CATEGORY
+  3  LEFT JOIN CATEGORY
+  4    ON TODO_CATEGORY.CATEGORY_ID = CATEGORY.ID
+  5  GROUP BY TODO_CATEGORY.ID;
+
+        ID MAX(CATEGORY.PRIORITY)
+---------- ----------------------
+      1000                     10
+      1003                      5
+      1009                    100
+      1011                     50
+      1006                     10
+      1001                      2
+      1002                     10
+      1007                      7
+      1004                     10
+      1010                    100
+      1005                      3
+      1008                     10
+
+12 rows selected. 
 
